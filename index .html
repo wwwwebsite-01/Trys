@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090909" />
+  <title>SINTU EDITOR 8610 | Video Editor</title>
+  <meta name="description" content="Video editing, reels and social media content by SINTU EDITOR 8610." />
+
+  <style>
+    :root {
+      --bg: #090909;
+      --panel: #151515;
+      --text: #f5f5f5;
+      --muted: #a5a5a5;
+      --red: #e50914;
+      --line: rgba(255, 255, 255, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    section { padding: 88px 7%; }
+    .container { width: min(1120px, 100%); margin: 0 auto; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(9, 9, 9, .9);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      min-height: 72px;
+      width: min(1200px, 90%);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .logo { font-weight: 900; letter-spacing: 1.5px; }
+    .logo span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { color: #ddd; font-size: 14px; }
+    .nav-links a:hover { color: white; }
+    .menu-button {
+      display: none;
+      color: white;
+      background: none;
+      border: 0;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 5px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      transition: transform .2s, background .2s;
+    }
+    .button:hover { background: #bf0811; transform: translateY(-2px); }
+    .button-outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.5);
+    }
+    .button-outline:hover { background: rgba(255,255,255,.1); }
+
+    .hero {
+      min-height: 680px;
+      padding: 0 7%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, #090909 0%, rgba(9,9,9,.92) 38%, rgba(9,9,9,.28) 100%),
+        linear-gradient(0deg, #090909 0%, transparent 50%),
+        url("./portrait.jpg") center 38% / cover no-repeat;
+    }
+    .hero-content { max-width: 650px; padding: 90px 0; position: relative; }
+    .eyebrow {
+      color: #ff555d;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 18px 0;
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: .95;
+      letter-spacing: -4px;
+      text-transform: uppercase;
+    }
+    h1 span { color: var(--red); }
+    .hero p { max-width: 520px; color: #d0d0d0; line-height: 1.8; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .hero-note { margin-top: 20px; color: #aaa; font-size: 13px; }
+
+    .section-heading { margin-bottom: 34px; }
+    .section-heading h2 {
+      margin: 10px 0;
+      font-size: clamp(32px, 5vw, 48px);
+      text-transform: uppercase;
+    }
+    .section-heading p { color: var(--muted); line-height: 1.7; max-width: 620px; }
+
+    .services, .social-grid, .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 26px;
+    }
+    .card h3 { margin: 12px 0; font-size: 21px; }
+    .card p { color: var(--muted); line-height: 1.7; }
+    .card .icon { font-size: 28px; }
+    .card-link { color: #ff555d; font-weight: 700; }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .work-card {
+      min-height: 270px;
+      display: flex;
+      align-items: end;
+      padding: 22px;
+      border-radius: 10px;
+      overflow: hidden;
+      background:
+        linear-gradient(0deg, rgba(0,0,0,.9), transparent 75%),
+        linear-gradient(135deg, #5a0710, #171717 65%);
+      border: 1px solid var(--line);
+    }
+    .work-card:nth-child(2) { background: linear-gradient(0deg, rgba(0,0,0,.9), transparent 75%), linear-gradient(135deg, #392020, #111 70%); }
+    .work-card:nth-child(3) { background: linear-gradient(0deg, rgba(0,0,0,.9), transparent 75%), linear-gradient(135deg, #431017, #171717 70%); }
+    .work-card small { color: #ff777d; text-transform: uppercase; letter-spacing: 1px; }
+    .work-card h3 { margin: 8px 0 0; font-size: 22px; }
+
+    .social-card { min-height: 210px; }
+    .social-card.youtube { border-top: 3px solid #ff0033; }
+    .social-card.instagram { border-top: 3px solid #d83c91; }
+    .social-card.whatsapp { border-top: 3px solid #25d366; }
+
+    .testimonial { position: relative; }
+    .testimonial blockquote { margin: 0; color: #ddd; line-height: 1.8; }
+    .testimonial cite { display: block; margin-top: 18px; color: white; font-style: normal; font-weight: 700; }
+    .sample-note { color: #888; font-size: 12px; margin-top: 18px; }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+    .contact-info { padding: 34px; }
+    .contact-info p { color: var(--muted); line-height: 1.8; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .map-style {
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      background-color: #202522;
+      background-image:
+        linear-gradient(35deg, transparent 45%, rgba(255,255,255,.08) 46%, rgba(255,255,255,.08) 48%, transparent 49%),
+        linear-gradient(135deg, transparent 40%, rgba(255,255,255,.06) 41%, rgba(255,255,255,.06) 43%, transparent 44%);
+      background-size: 90px 90px, 120px 120px;
+    }
+    .map-pin { font-size: 42px; }
+    .map-style p { color: #ddd; }
+
+    footer {
+      padding: 26px 7%;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      section { padding: 68px 6%; }
+      .menu-button { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        padding: 22px 6%;
+        background: #111;
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links .button { text-align: center; }
+      .hero { min-height: 640px; background-position: 58% center; }
+      h1 { letter-spacing: -2px; }
+      .services, .social-grid, .testimonial-grid, .work-grid { grid-template-columns: 1fr; }
+      .contact-box { grid-template-columns: 1fr; }
+      .map-style { min-height: 220px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <nav class="nav">
+      <a class="logo" href="#home">SINTU <span>EDITOR</span></a>
+      <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#social">Social</a>
+        <a href="#contact">Contact</a>
+        <a class="button" href="https://wa.me/916354310610?text=Hi%20Sintu%2C%20I%20need%20video%20editing." target="_blank" rel="noopener">Hire Me Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="eyebrow">Video editor · Reels · Social content</div>
+        <h1>Make every<br />frame <span>hit.</span></h1>
+        <p>
+          I’m Sintu, a video editor creating bold reels, engaging shorts
+          and social content designed to get noticed.
+        </p>
+        <div class="hero-buttons">
+          <a class="button" href="https://wa.me/916354310610?text=Hi%20Sintu%2C%20I%20want%20to%20hire%20you%20for%20editing." target="_blank" rel="noopener">Hire Me Now on WhatsApp</a>
+          <a class="button button-outline" href="#work">Explore my work</a>
+        </div>
+        <div class="hero-note">Available for paid editing projects · India & remote</div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Selected work</div>
+          <h2>Made to be watched.</h2>
+          <p>Reels, short-form videos and social visuals. Replace these sample cards with your real project videos.</p>
+        </div>
+        <div class="work-grid reveal">
+          <article class="work-card"><div><small>Short-form video</small><h3>Reels & Shorts</h3></div></article>
+          <article class="work-card"><div><small>Story-led editing</small><h3>Creator Content</h3></div></article>
+          <article class="work-card"><div><small>Social media</small><h3>Visual Stories</h3></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">What I do</div>
+          <h2>Editing that fits your vision.</h2>
+        </div>
+        <div class="services reveal">
+          <article class="card">
+            <div class="icon">▶</div>
+            <h3>Reels & Shorts</h3>
+            <p>Fast-paced edits, captions, transitions and music for short-form content.</p>
+            <a class="card-link" href="https://wa.me/916354310610?text=Hi%20Sintu%2C%20I%20need%20a%20Reel%20or%20Short%20edited." target="_blank" rel="noopener">Ask about a project →</a>
+          </article>
+          <article class="card">
+            <div class="icon">✂</div>
+            <h3>Story-led Editing</h3>
+            <p>Bring your footage together with clean pacing, color and a clear story.</p>
+            <a class="card-link" href="https://wa.me/916354310610?text=Hi%20Sintu%2C%20I%20need%20video%20editing." target="_blank" rel="noopener">Ask about a project →</a>
+          </article>
+          <article class="card">
+            <div class="icon">✦</div>
+            <h3>Posters & Social Assets</h3>
+            <p>Eye-catching visuals to keep your content consistent across platforms.</p>
+            <a class="card-link" href="https://wa.me/916354310610?text=Hi%20Sintu%2C%20I%20need%20social%20media%20designs." target="_blank" rel="noopener">Ask about a project →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="social">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Follow along</div>
+          <h2>Find me on social.</h2>
+          <p>Visit my channels to see my latest work and updates.</p>
+        </div>
+        <div class="social-grid reveal">
+          <article class="card social-card instagram">
+            <div class="icon">◎</div>
+            <h3>Instagram</h3>
+            <p>@sintu.editor.8610</p>
+            <a class="button button-outline" href="https://www.instagram.com/sintu.editor.8610/" target="_blank" rel="noopener">Follow on Instagram</a>
+          </article>
+          <article class="card social-card youtube">
+            <div class="icon">▶</div>
+            <h3>YouTube</h3>
+            <p>@sintu_editor_8610</p>
+            <a class="button button-outline" href="https://youtube.com/@sintu_editor_8610" target="_blank" rel="noopener">Visit YouTube</a>
+          </article>
+          <article class="card social-card whatsapp">
+            <div class="icon">✆</div>
+            <h3>WhatsApp</h3>
+            <p>Let’s talk about your next video.</p>
+            <a class="button" href="https://wa.me/916354310610" target="_blank" rel="noopener">Message me</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Testimonials</div>
+          <h2>Kind words.</h2>
+        </div>
+        <div class="testimonial-grid reveal">
+          <article class="card testimonial">
+            <blockquote>“The edit was energetic and captured exactly the style I wanted.”</blockquote>
+            <cite>— Sample client</cite>
+          </article>
+          <article class="card testimonial">
+            <blockquote>“Quick communication and a polished final video. Great experience.”</blockquote>
+            <cite>— Sample creator</cite>
+          </article>
+          <article class="card testimonial">
+            <blockquote>“The pacing and captions made the reel much more engaging.”</blockquote>
+            <cite>— Sample business</cite>
+          </article>
+        </div>
+        <p class="sample-note">Sample testimonials — replace with real client feedback before publishing.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <div class="contact-info">
+            <div class="eyebrow">Let’s work together</div>
+            <h2>Have a video in mind?</h2>
+            <p>Contact me directly to discuss your editing project. I’m available for work across India and remotely.</p>
+            <div class="contact-actions">
+              <a class="button" href="https://wa.me/916354310610?text=Hi%20Sintu%2C%20I%20want%20to%20discuss%20an%20editing%20project." target="_blank" rel="noopener">WhatsApp me</a>
+              <a class="button button-outline" href="tel:+916354310610">Call +91 63543 10610</a>
+              <a class="button button-outline" href="https://ig.me/m/sintu.editor.8610" target="_blank" rel="noopener">Instagram DM</a>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> SINTU EDITOR 8610 · <a href="https://wa.me/916354310610">Hire me on WhatsApp</a></footer>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", isOpen);
+      menuButton.textContent = isOpen ? "×" : "☰";
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.textContent = "☰";
+      });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
